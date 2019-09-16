@@ -51,6 +51,7 @@ namespace openrmf_upload_api.Controllers
 
                     // publish to the openrmf save new realm the new ID we can use
                     _msgServer.Publish("openrmf.save.new", Encoding.UTF8.GetBytes(record.InternalId.ToString()));
+                    _msgServer.Flush();
                   }
                   return Ok();
                 }
@@ -78,6 +79,7 @@ namespace openrmf_upload_api.Controllers
               await _artifactRepo.UpdateArtifact(id, MakeArtifactRecord(system, rawChecklist));
               // publish to the openrmf save new realm the new ID we can use
               _msgServer.Publish("openrmf.save.update", Encoding.UTF8.GetBytes(id));
+              _msgServer.Flush();
 
               return Ok();
           }
