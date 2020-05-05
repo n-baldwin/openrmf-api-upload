@@ -10,7 +10,7 @@ namespace openrmf_upload_api.Controllers
     [Route("healthz")]
     public class HealthController : Controller
     {
-       private readonly ILogger<HealthController> _logger;
+        private readonly ILogger<HealthController> _logger;
 	    private readonly ISystemGroupRepository _systemRepo;
 
         public HealthController(ISystemGroupRepository systemRepo, ILogger<HealthController> logger)

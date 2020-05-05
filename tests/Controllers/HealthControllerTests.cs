@@ -2,8 +2,10 @@ using System;
 using Xunit;
 using openrmf_upload_api.Controllers;
 using openrmf_upload_api.Data;
+using openrmf_upload_api.Models;
 using Moq;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
@@ -21,9 +23,14 @@ namespace tests.Controllers
         private readonly Mock<ISystemGroupRepository> _mocksystemGroupRepo;
 
         public HealthControllerTests() {
+            Settings settings = new Settings();
+            settings.ConnectionString = "mongodb://openrmf:openrmf1234!@localhost/openrmf?authSource=admin";
+            settings.Database = "openrmf";
+
+            SystemGroupRepository sysGroupRepo = new SystemGroupRepository(Options.Create<Settings>(settings));
+
             _mockLogger = new Mock<ILogger<HealthController>>();
-            _mocksystemGroupRepo = new Mock<ISystemGroupRepository>();
-            _healthController = new HealthController(_mocksystemGroupRepo.Object, _mockLogger.Object);
+            _healthController = new HealthController(sysGroupRepo, _mockLogger.Object);
         }
 
         [Fact]

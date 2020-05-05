@@ -1,45 +1,48 @@
 using Xunit;
 using openrmf_upload_api.Models;
 using System;
+using MongoDB.Bson;
 
-namespace tests.Models
+namespace test.Models
 {
     public class SystemGroupTests
     {
         [Fact]
         public void Test_NewSystemGroupIsValid()
         {
-            SystemGroup sys = new SystemGroup();
-            Assert.True(sys != null);
-            Assert.True (sys.numberOfChecklists == 0);
-            Assert.False (sys.updatedOn.HasValue);
-            Assert.False (sys.lastComplianceCheck.HasValue);
+            SystemGroup sysGroup = new SystemGroup();
+
+            // Testing
+            Assert.False(sysGroup == null);
         }
-    
+
         [Fact]
         public void Test_SystemGroupWithDataIsValid()
         {
-            SystemGroup sys = new SystemGroup();
-            sys.created = DateTime.Now;
-            sys.title = "My System Title";
-            sys.description = "This is my System description for all items.";
-            sys.numberOfChecklists = 3;
-            sys.nessusFilename = "myfileservers.nessus";
-            sys.rawNessusFile = "<xml></xml>";
-            sys.updatedOn = DateTime.Now;
-            sys.lastComplianceCheck = DateTime.Now;
-            // test things out
-            Assert.True(sys != null);
-            Assert.True (!string.IsNullOrEmpty(sys.created.ToShortDateString()));
-            Assert.True (!string.IsNullOrEmpty(sys.title));
-            Assert.True (!string.IsNullOrEmpty(sys.description));
-            Assert.True (!string.IsNullOrEmpty(sys.nessusFilename));
-            Assert.True (!string.IsNullOrEmpty(sys.rawNessusFile));
-            Assert.True (sys.numberOfChecklists == 3);
-            Assert.True (sys.updatedOn.HasValue);
-            Assert.True (!string.IsNullOrEmpty(sys.updatedOn.Value.ToShortDateString()));
-            Assert.True (sys.lastComplianceCheck.HasValue);
-            Assert.True (!string.IsNullOrEmpty(sys.lastComplianceCheck.Value.ToShortDateString()));
+            SystemGroup sysGroup = new SystemGroup();
+
+            sysGroup.InternalId = ObjectId.GenerateNewId();
+            sysGroup.title = "title";
+            sysGroup.description = "description";
+            sysGroup.numberOfChecklists = 5;
+            sysGroup.rawNessusFile = "A raw file";
+            sysGroup.lastComplianceCheck = DateTime.Now;
+            sysGroup.created = DateTime.Now;
+            sysGroup.updatedOn = DateTime.Now;
+            sysGroup.createdBy = Guid.NewGuid();
+            sysGroup.updatedBy = Guid.NewGuid();
+
+            // Testing
+            Assert.True(sysGroup.title == "title");
+            Assert.True(sysGroup.description == "description");
+            Assert.True(sysGroup.numberOfChecklists == 5);
+            Assert.True(sysGroup.rawNessusFile == "A raw file");
+            Assert.False(sysGroup.InternalId == null);
+            Assert.False(sysGroup.lastComplianceCheck == null);
+            Assert.False(sysGroup.created == null);
+            Assert.False(sysGroup.updatedOn == null);
+            Assert.False(sysGroup.createdBy == null);
+            Assert.False(sysGroup.updatedBy == null);
         }
     }
 }
