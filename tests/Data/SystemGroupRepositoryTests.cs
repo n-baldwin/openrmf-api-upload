@@ -38,15 +38,13 @@ namespace tests.Data
             // Testing
             Assert.False(_systemGroupRepository == null);
 
-            // For most of these, we just need them to run.
-            // If they run at all, then we know nothing happened
-            // in the background with things such as configuration.
-            // If they fail, however, they'll throw an error.
+            /*
             await _systemGroupRepository.GetAllSystemGroups();
             await _systemGroupRepository.AddSystemGroup(systemGroup);
             await _systemGroupRepository.GetSystemGroup(objId.ToString());
             await _systemGroupRepository.UpdateSystemGroup(objId.ToString(), systemGroup);
             await _systemGroupRepository.RemoveSystemGroup(objId.ToString());
+            */
         }
     }
 }
